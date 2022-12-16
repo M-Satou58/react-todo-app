@@ -1,23 +1,33 @@
-import logo from './logo.svg';
+import { useState } from 'react' 
 import './App.css';
-
+import { Header } from './Components/Header'
+import { Todo } from './Components/Todo'
+import { AddTodo } from './Components/AddTodo'
 function App() {
+  const [todoList, addTodoList] = useState([])
+  const [addTodoToggle, setAddTodoToggle] = useState(true)
+
+  const toggleAddTodo = () => {
+    setAddTodoToggle(prev => !prev)
+  }
   return (
-    <div className="App">
-      <header className="App-header">
-        <img src={logo} className="App-logo" alt="logo" />
-        <p>
-          Edit <code>src/App.js</code> and save to reload.
-        </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          Learn React
-        </a>
-      </header>
+    <div className="container">
+      <Header toggleAddTodo={toggleAddTodo}/>
+
+      <div className="todo-list-container">
+        {todoList.map((todo, i) => {
+          return <Todo 
+                    key={i}
+                    id={i}
+                    todo={todo}
+                    todoList={todoList}
+                    addTodoList={addTodoList}
+                  />
+        })}
+      </div>
+
+      {addTodoToggle && <AddTodo toggleAddTodo={toggleAddTodo} addTodoList={addTodoList}/>}
+
     </div>
   );
 }
